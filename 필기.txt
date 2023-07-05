@@ -1,0 +1,58 @@
+1. pom.xml 
+	- 버전 변경
+	- 6개설치
+	- mybatis
+	- web.xml > 필터 설치
+	- root-context 
+
+
+해야될거	
+log4j
+tiles
+root-context > database id 설정
+fileupload  사용시 주석풀기
+
+
+--학원, 과정은 통합관리
+"com.test.academy" > AcademyController.java
+				   > AcademyService.java(I)
+				   > AcademyServiceImpl.java
+				   > AcademyDAO.java(I)
+				   > AcademyDAOImpl.java
+				   
+
+"com.test.academy.student" > StudentController.java
+				   		   > StudentService.java(I)
+				           > StudentServiceImpl.java
+				           > StudentDAO.java(I)
+				           > StudentDAOImpl.java
+				           
+(문의게시판, 커뮤니티)				   
+"com.test.academy.board" > BoardController.java
+						 > BoardService.java(I)
+				   		 > BoardServiceImpl.java 
+						 > AnsBoardDAO.java
+						 > CommunityBoardDAO.java
+						 
+
+"com.test.academy.admin" > Logger.java
+						 > LogDAO.java
+"com.test.academy.etc" > 
+"com.test.academy.mapper" > academy.xml
+						  > student.xml
+						  > Board.xml
+						  
+						  
+						  
+"com.test.academy.dto" > AcademyDTO.java
+					   > ClassDTO.java
+					   > StudentDTO.java
+					   > adminDTO.java
+					   > LogDTO.java
+					   > CommunityBoardDTO.java
+					   > AnsBoardDTO.java
+					   > JjimDTO.java
+					   > PostDTO.java
+					   
+
+	

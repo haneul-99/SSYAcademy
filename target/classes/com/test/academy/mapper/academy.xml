@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="academy">
+	
+	<select id="alist" resultType="acdto">
+		select * from tblacademy
+	</select>
+	
+	<select id="jlist" resultType="String">
+		select c.cseq from tblclass c inner join tbljjim j on j.cseq = c.cseq inner join tblstudent s on s.stuseq = j.stuseq  group by c.cseq order by count(cname) desc
+	</select>
+	
+	<select id="pclist" parameterType="String" resultType="cldto">
+		select * from tblclass c inner join tblteacher t on t.tseq = c.tseq where cseq = #{cseq}
+	</select>
+	
+	<select id="sclist"  resultType="cldto">
+		select * from tblclass c inner join tblteacher t on t.tseq = c.tseq
+	</select>
+	
+	<select id="jclist"  resultType="cldto" parameterType="String">
+		select * from tblclass c inner join tblteacher t on t.tseq = c.tseq where cname like '%'||#{word}||'%'
+	</select>
+	<!-- 민수님 -->
+	<select id = "mypage" parameterType="String" resultType = "acdto">
+		select * from tblAcademy where aseq = #{aseq}
+	</select>
+
+	<update id = "edit">
+		update tblAcademy set aname = #{aname}, atel=#{atel}, aemail=#{aemail},aimage=#{aimage},ainfo=#{ainfo},aaddr=#{aaddr} where aseq = #{aseq}
+	</update>
+	
+	<select id="teacher" parameterType="String" resultType="tdto">
+		select * from tblTeacher where aseq = #{aseq}
+	</select>
+	
+	<select id = "openclasspage" parameterType="String" resultType="cldto">
+		select * from tblclass c inner join tblteacher t on c.tseq = t.tseq where t.aseq =#{aseq}
+	</select>
+	
+	<select id = "mapcs" parameterType="String" resultType="mcsdto">
+		<!-- select * from tblStudent s inner join tblmapcs ms on s.stuseq = ms.stuseq inner join tblClass c on c.cseq=ms.cseq where c.cseq = #{cseq}-->
+		
+		<!--  select * from tblMapcs where cseq = 1-->
+		select * from 
+			tblStudent s
+				 inner join tblmapcs ms on s.stuseq = ms.stuseq
+				  inner join tblClass c on c.cseq=ms.cseq
+				   inner join tblTeacher t on t.tseq = c.tseq
+				    inner join tblAcademy a on t.aseq= a.aseq
+				     where a.aseq = #{aseq}
+		
+	</select>
+	
+	<delete id = "teacherdel" parameterType="String">
+		delete from tblTeacher where tseq= #{tseq}
+	
+	</delete>
+	
+	<insert id = "teacheradd"  parameterType="tdto">
+		insert into tblTeacher(tseq,tname,aseq)values (seqteacher.nextval,#{tname},#{aseq})
+	</insert>
+
+	
+	<insert id = "openclassadd" parameterType="cldto">
+		insert into tblClass(cseq,cperiod,ctime,stunum,rperiod,cinfo,cregdate,cname,ccategory,tseq)
+			values
+				(seqclass.nextval,#{cperiod},#{ctime},#{stunum},#{period},#{cinfo},sysdate,#{cname},#{ccategory},#{tseq})
+	</insert>
+	
+	
+	<select id = "openclassget" parameterType="String" resultType = "cldto">
+		select * from tblClass where tseq = #{tseq}
+	</select>
+	
+	<update id = "openclassedit">
+		update tblClass 
+		set 
+		 cname = #{cname},
+		 cperiod=#{cperiod},
+		 ctime=#{ctime},
+		 stunum=#{stunum},
+		 cinfo=#{cinfo},
+		 ccategory=#{ccategory}
+		 
+		  where tseq = #{tseq}
+	</update>
+	
+	<select id = "mapcsdetail" parameterType="String" resultType = "sdto">
+		select * from tblStudent s
+		 inner join tblmapcs ms on s.stuseq = ms.stuseq
+		  inner join tblClass c on c.cseq=ms.cseq
+		   inner join tblTeacher t on t.tseq = c.tseq
+		    inner join tblAcademy a on t.aseq= a.aseq
+		     where s.stuseq = #{stuseq}
+	
+	</select>
+	
+	<select id = "qna" parameterType="String" resultType="qnadto">
+		 select * from tblQna q inner join tblStudent s on q.stuseq = s.stuseq inner join tblAcademy a on q.aseq = a.aseq 
+           where a.aseq =#{aseq}
+	</select>
+	
+	
+	<select id = "qnadetail" parameterType="String" resultType="qnadto">
+	  <!-- select * from tblQna q inner join tblStudent s on q.stuseq = s.stuseq inner join tblTeacher t on q.tseq = t.tseq 
+          inner join tblClass c on c.tseq = t.tseq 
+          inner join tblAcademy a on a.aseq = t.aseq
+          where a.aseq =#{aseq} -->
+           select * from tblQna q inner join tblStudent s on q.stuseq = s.stuseq inner join tblAcademy a on q.aseq = a.aseq 
+           where a.aseq =#{aseq}
+	</select>
+	
+	<insert id="qnaadd" parameterType="qnadto">
+		insert into tblQnaAnswer(qaseq,qasubject,qacontent,qaregdate,qseq)
+		values(seqqnaanswer.nextVal,#{qasubject},#{qacontent},sysdate,#{qseq})
+	
+	</insert>
+	
+	<select id="academydetail" parameterType="String" resultType="acdto">
+		select * from tblAcademy where aseq = #{aseq}
+	</select>
+	
+	<select id="classlist" parameterType="String" resultType="cldto">
+		select * from tblAcademy a inner join tblTeacher t on a.aseq = t.aseq inner join tblClass c on c.tseq = t.tseq where a.aseq = #{aseq}
+	</select>
+	<select id="jjimlist" parameterType="String" resultType="jjdto">
+		select * from tblJjim j inner join tblStudent s on j.stuseq = s.stuseq inner join tblClass c on c.cseq = j.cseq where s.stuid=#{stuid}
+	</select>
+	
+	<delete id="jjimdelete" parameterType="String">
+		delete from tblJjim where jseq=#{jseq}
+	</delete>
+	
+</mapper>

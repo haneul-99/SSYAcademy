@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board" >
+	<insert id="addcomu" parameterType="cmdto">
+		insert into tblCommunity(cmseq,cmsubject,cmcontent,cmregdate,cmviewcnt,cmattach,stuseq)values (seqCommunity.nextVal,#{cmsubject},#{cmcontent},default,0,#{cmattach},#{stuseq})	
+	</insert>
+	
+	<select id="clist" resultType="cmdto" parameterType="hashmap">
+		select * from (select rownum as rnum,c.*,to_char(sysdate-cmregdate) as time from tblcommunity c order by cmregdate desc) where rnum between #{begin} and #{end}  
+	</select>
+	<select id="searchclist" resultType="cmdto" parameterType="hashmap">
+		select * from (select rownum as rnum,c.*,to_char(sysdate-cmregdate) as time from tblcommunity c order by cmregdate desc) where rnum between #{begin} and #{end} and cmsubject like '%'||#{word}||'%'  
+	</select>
+	
+	<select id="cmdto" parameterType="String" resultType="cmdto">
+		select * from tblcommunity c inner join tblstudent s on c.stuseq = s.stuseq where cmseq = #{seq} 
+	</select>
+	
+	<update id="editcommu" parameterType="cmdto">
+		update tblcommunity set cmsubject=#{cmsubject},cmcontent=#{cmcontent},cmattach=#{cmattach} where cmseq = #{cmseq}
+	</update>
+	
+	
+	<insert id="commentadd" parameterType="ccdto">
+		insert into tblComuComment (ccseq,ccContent,stuseq,cmseq,ccregdate) values (seqcomucomment.nextVal,#{cccontent},#{stuseq},#{cmseq},default)	
+	</insert>
+	
+	<select id="cclist" resultType="ccdto" parameterType="String">
+		select * from tblComuComment cc inner join tblstudent s on cc.stuseq = s.stuseq where cmseq = #{seq}
+	
+	</select>
+	
+	<delete id="ccdel" parameterType="ccdto">
+		delete from tblcomucomment where ccseq =#{ccseq} 
+		
+	</delete>
+	
+	<select id="cocnt" resultType="Integer" parameterType="String">
+		select count(*) from tblComuComment where cmseq = #{cmseq}
+	
+	</select>
+	
+	<update id="readcnt" parameterType="String" >
+		update tblcommunity set cmviewcnt = cmviewcnt+1 where cmseq = #{cmseq}
+	</update>
+	
+	<select id="commucnt" resultType="Integer">
+		select count(*) from tblcommunity
+	
+	</select>
+	
+	<select id="searchcommucnt" resultType="Integer" parameterType="hashmap">
+		select count(*) from tblcommunity where cmsubject like '%'||#{word}||'%'  
+	
+	</select>
+	
+	<select id="getacademy" resultType="String">
+		select aname from tblacademy order by aseq  
+	
+	</select>
+	
+	<select id="getclassok" parameterType="String" resultType = "String">
+	select cname from tblteacher t inner join tblclass c on t.tseq = c.tseq inner join tblacademy a on a.aseq = t.aseq where a.aseq=#{academy}
+	</select>
+	<select id="getclassallok"  resultType = "String">
+	select cname from tblteacher t inner join tblclass c on t.tseq = c.tseq inner join tblacademy a on a.aseq = t.aseq
+	</select>
+	
+	<delete id="delcommu" parameterType="String">
+		delete from tblcommunity where cmseq =#{cmseq} 
+	</delete>
+	
+	<!--참조된 댓글 삭제  -->
+	<delete id="delcomment" parameterType="String">
+		delete from tblcomucomment where cmseq =#{cmseq} 
+	</delete>
+	
+	<insert id="addqboard" parameterType="qnadto">
+		insert into tblqna (qseq,qsubject,qcontent,qregdate,stuseq,aseq) values (seqqna.nextVal,#{qsubject},#{qcontent},default,#{stuseq},#{qacademy})
+	</insert>
+	
+	 <!-- 문의게시판 -->
+	 <select id="searchqlist" resultType="qnadto" parameterType="hashmap">
+		select * from (select rownum as rnum,q.*,to_char(sysdate-qregdate) as time from tblqna q order by cmregdate desc) where rnum between #{begin} and #{end} and cmsubject like '%'||#{word}||'%'  
+	</select>
+	          
+	 <select id="qlist" resultType="qnadto">
+		select qa.*,to_char(sysdate-qregdate) as time from (select * from tblqna q inner join tblacademy a on q.aseq = a.aseq) qa order by qregdate desc
+	</select>
+	
+	 <select id="qdto" parameterType="String" resultType="qnadto">
+		select * from tblqna q inner join tblstudent s on s.stuseq = q.stuseq where qseq=#{qseq}
+	</select>
+	 <select id="getaname" parameterType="String" resultType="String">
+		select aname from tblacademy where aseq = #{aseq}
+	</select>
+	          
+	<delete id="delQboard" parameterType="String">
+		delete from tblqna where qseq =#{qseq} 
+	</delete>
+	     
+	<update id="editQboard" parameterType="qnadto">
+		update tblqna set aseq=#{qacademy}, qsubject=#{qsubject},qcontent=#{qcontent} where qseq = #{qseq}
+	</update>
+	
+	<insert id="addqboardcomment" parameterType="com.test.academy.dto.QnaCommentDTO">
+		insert into tblqnaanswer (qaseq,qacontent,qaregdate,qseq) values (seqqnaanswer.nextVal,#{qacontent},default,#{qseq})
+	
+	</insert>
+	
+	<!--문의게시판 댓글가져오기  -->
+	<select id="getqclist" resultType="com.test.academy.dto.QnaCommentDTO" parameterType="String">
+		select * from tblqnaanswer qc inner join tblqna q on qc.qseq = q.qseq inner join tblacademy a on a.aseq = q.aseq where qc.qseq = #{qseq}
+	</select>
+	
+	<select id="qacommentcnt" resultType="String" parameterType="String">
+		select count(*) from  tblqnaanswer where qseq = #{qseq}
+	
+	</select>
+	<!-- 문의게시판 댓글삭제하기 -->
+	<delete id="qnacommentdel" parameterType="String">
+		delete from tblQnaAnswer where qaseq =#{qaseq} 
+	</delete>
+	
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="course">
+
+	<select id="getlatestlist" resultType="cdto">
+		select * from (select * from tblclass order by cregdate desc) <![CDATA[where rownum <= 3]]>
+	</select>
+
+	<select id="allcourse" parameterType="HashMap" resultType="cdto">
+		select aa.*
+		from (select rownum as rnum, c.*, t.tname, a.aname
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq) aa
+		where rnum between #{begin} and #{end}
+	</select>
+
+	<select id="getalltotalcount" parameterType="HashMap"
+		resultType="int">
+		select count(*)
+		from tblclass c
+		inner join tblteacher t
+		on
+		c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq
+
+	</select>
+
+	<select id="searchcourse" parameterType="HashMap"
+		resultType="cdto">
+		select bb.* from
+		(select rownum as rnum, aa.*
+		from (select c.*, t.tname, a.aname
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq) aa
+		where cname like '%' || #{word} || '%') bb where
+		rnum between #{begin} and #{end}
+	</select>
+
+	<select id="kukbi" parameterType="HashMap" resultType="cdto">
+		select bb.* from
+		(select rownum as rnum, aa.*
+		from (select c.*, t.tname, a.aname, a.actseq
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq) aa
+		where cname like '%' || #{word} || '%' and actseq
+		= 1) bb where rnum between #{begin} and #{end}
+	</select>
+
+	<select id="bute" parameterType="HashMap" resultType="cdto">
+		select bb.* from
+		(select rownum as rnum, aa.*
+		from (select c.*, t.tname, a.aname, a.actseq
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq) aa
+		where cname like '%' || #{word} || '%' and actseq
+		= 2) bb where rnum between #{begin} and #{end}
+	</select>
+
+	<select id="getsearchtotalcount" parameterType="HashMap"
+		resultType="int">
+		select count(*)
+		from tblclass c
+		inner join tblteacher t
+		on
+		c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq
+		where c.cname
+		like '%' || #{word} || '%'
+	</select>
+
+	<select id="kukbicount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq =
+		t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq
+		where a.actseq = 1 and
+		c.cname like '%' || #{word} || '%'
+	</select>
+
+	<select id="butecount" parameterType="HashMap" resultType="int">
+		select count(*)
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq =
+		t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq
+		where a.actseq = 2 and
+		c.cname like '%' || #{word} || '%'
+	</select>
+
+	<select id="getcategory" parameterType="String"
+		resultType="cdto">
+		select aa.*
+		from (select rownum as rnum, c.*, t.tname,
+		a.aname
+		from tblclass c
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq) aa
+		where ccategory = #{category}
+	</select>
+
+	<select id="getlanguage" parameterType="String"
+		resultType="cdto">
+		select *
+		from tblclass c
+		inner join tblmapcsk m
+		on c.cseq = m.cseq
+		inner join tblskils s
+		on s.skseq = m.skseq
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq
+		where s.skname = #{category}
+	</select>
+
+	<select id="getcoursedetail" parameterType="String" resultType="cdto">
+		select c.*, t.tname, a.*, s.skname
+		from tblclass c
+		inner join tblmapcsk m
+		on c.cseq = m.cseq
+		inner join tblskils s
+		on s.skseq = m.skseq
+		inner join tblteacher t
+		on c.tseq = t.tseq
+		inner join tblacademy a
+		on a.aseq = t.aseq
+		where c.cseq = #{seq}
+	</select>
+	
+	<select id="getjjimcount" parameterType="String" resultType="int">
+		select count(*) from tbljjim where cseq = #{seq}
+	</select>
+	
+	<insert id="coursejjim" parameterType="cdto">
+		insert into tbljjim(jseq, stuseq, cseq) values (seqjjim.nextVal, #{stuseq}, #{cseq})
+	</insert>
+	
+	<select id="checkjjim" parameterType="cdto" resultType="int">
+	    select count(*) from tbljjim where cseq = #{cseq} and stuseq = #{stuseq}
+	</select>
+	
+	<select id="checkapply" parameterType="cdto" resultType="int">
+    	select count(*) from tblmapcs where cseq = #{cseq} and stuseq = #{stuseq}
+	</select>
+	
+	<insert id="applycourse" parameterType="cdto">
+		insert into tblmapcs(mcsseq, stuseq, cseq) values (seqmapcs.nextVal, #{stuseq}, #{cseq})
+	</insert>
+	
+	<delete id="applycancelcourse" parameterType="cdto">
+		delete from tblmapcs where cseq = #{cseq} and stuseq = #{stuseq}
+	</delete>
+	
+	<delete id="coursejjimcancel" parameterType="cdto">
+		delete from tbljjim where cseq = #{cseq} and stuseq = #{stuseq}
+	</delete>
+	
+</mapper>

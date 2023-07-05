@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="project">
+
+	<select id="projectalllist" resultType="pdto">
+		select p.*, s.stuname
+		from tblProject p
+		inner join tblstudent s
+		on p.stuseq = s.stuseq
+		where
+		prStatus = '모집 중'
+		order by prseq desc
+	</select>
+
+	<select id="projectdetail" parameterType="String"
+		resultType="pdto">
+		select p.*, s.stuname
+		from tblProject p
+		inner join tblstudent s
+		on p.stuseq = s.stuseq
+		where
+		p.prseq = #{seq}
+	</select>
+
+	<select id="projectlist" resultType="pdto">
+		select p.*, s.stuname
+		from tblProject p
+		inner join tblstudent s
+		on p.stuseq = s.stuseq
+		where
+		prStatus = '모집 중'
+		and prseq > (select max(rownum) from tblproject)-9
+		order by prseq desc
+	</select>
+
+	<select id="getname" parameterType="String" resultType="String">
+		select
+		stuname from tblstudent where stuseq = #{seq}
+	</select>
+
+	<insert id="addproject" parameterType="pdto">
+		insert into
+		tblproject(prseq, prsubject, prinfo, stuCnt, prPeriod, prRegdate,
+		prStatus, stuSeq)
+		values (seqProject.nextVal, #{prsubject}, #{prinfo}, #{stucnt}, #{prperiod},
+		default, '모집 중', #{stuseq})
+	</insert>
+
+	<select id="checkmember" parameterType="String" resultType="int">
+		select count(*) from tblprojectmember where prseq = #{seq}
+	</select>
+
+	<select id="getmembername" parameterType="String"
+		resultType="pdto">
+		select s.stuname from tblprojectmember pm inner join
+		tblstudent s on pm.stuseq = s.stuseq where prseq = #{seq}
+	</select>
+
+	<select id="getcomment" parameterType="String"
+		resultType="pcdto">
+		select pc.*, s.stuname from tblprojectcomment pc inner join
+		tblstudent s on pc.stuseq = s.stuseq where prseq = #{seq}
+	</select>
+
+	<select id="getcommentcount" parameterType="String"
+		resultType="int">
+		select count(pcseq) from tblprojectcomment where prseq =
+		#{seq}
+	</select>
+
+	<insert id="addcomment" parameterType="pcdto">
+		insert into tblprojectcomment(pcseq, pccontent, stuseq, prseq, pcregdate)
+		values (seqprojectcomment.nextVal, #{pccontent}, #{stuseq}, #{prseq},
+		default)
+	</insert>
+
+	<delete id="delcomment" parameterType="String">
+		delete from
+		tblprojectcomment where pcseq = #{seq}
+	</delete>
+
+	<update id="editcomment" parameterType="pcdto">
+		update tblprojectcomment
+		set pccontent = #{pccontent} where pcseq = #{pcseq}
+	</update>
+	
+	<insert id="applyproject" parameterType="pdto">
+		insert into tblapplyproject(apseq, stuseq, prseq) values (seqapplyproject.nextVal, #{stuseq}, #{prseq})
+	</insert>
+
+	<select id="checkapply" parameterType="pdto" resultType="int">
+		select count(*) from tblapplyproject where stuseq = #{stuseq} and prseq = #{prseq}
+ 	</select>
+ 	
+ 	<delete id="applyprojectcancel" parameterType="pdto">
+ 		delete from tblapplyproject where stuseq = #{stuseq} and prseq = #{prseq}
+ 	</delete>
+
+</mapper>

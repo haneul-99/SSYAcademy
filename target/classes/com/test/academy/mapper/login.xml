@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="login">
+	
+	<select id="studentLoginok" parameterType="sdto" resultType="int">
+		select count(*) from tblStudent where stuid = #{stuid} and stupw = #{stupw}
+	</select>
+	
+	<select id="academyLoginok" parameterType="acdto" resultType="int">
+		select count(*) from tblAcademy where aid = #{aid} and apw = #{apw}
+	</select>
+	
+	<select id="adminLoginok" parameterType="addto" resultType="int">
+		select count(*) from tblAdmin where adid = #{adid} and adpw = #{adpw}
+	</select>
+	
+	<select id="getStuinfo" parameterType="sdto" resultType="sdto">
+		select * from tblStudent where stuid = #{stuid} and stupw = #{stupw}
+	</select>
+	
+	<select id="getAcademyinfo" parameterType="acdto" resultType="acdto">
+		select * from tblAcademy where aid = #{aid} and apw = #{apw}
+	</select>
+	
+	<select id="getAdmininfo" parameterType="addto" resultType="addto">
+		select * from tblAdmin where adid = #{adid} and adpw = #{adpw}
+	</select>
+	
+	<select id="stuFindidok" parameterType="sdto" resultType="int">
+		select count(*) from tblStudent where stuname = #{stuname} and stuemail = #{stuemail}
+	</select>
+	
+	
+	<select id="getStufindid" parameterType="sdto" resultType="sdto">
+		select stuid from tblStudent where stuname = #{stuname} and stuemail = #{stuemail}
+	</select>
+	
+	
+	<select id="acFindidok" parameterType="acdto" resultType="int">
+		select count(*) from tblAcademy where aname = #{aname} and aemail = #{aemail}
+	</select>
+	
+	
+	<select id="getAcfindid" parameterType="acdto" resultType="acdto">
+		select aid from tblAcademy where aname = #{aname} and aemail = #{aemail}
+	</select>
+	
+	
+	
+	
+	<select id="getStuid" parameterType="sdto" resultType="String">
+		select stuid from tblStudent where stuname = #{stuname} and stuemail = #{stuemail}
+	</select>
+	
+	
+	<update id="stupwresetsuccess" parameterType="sdto">
+		update tblStudent set stupw = #{stupw} where stuid = #{stuid}
+	</update>
+	
+	<select id="getAcid" parameterType="acdto" resultType="String">
+		select aid from tblAcademy where aname = #{aname} and aemail = #{aemail}
+	</select>
+	
+	<update id="acpwresetsuccess" parameterType="acdto">
+		update tblAcademy set apw = #{apw} where aid = #{aid}
+	</update>
+	
+</mapper>

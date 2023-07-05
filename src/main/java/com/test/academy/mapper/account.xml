@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="account">
+
+	<insert id="acaregister" parameterType="adto">
+		insert into tblAcademy(aSeq, aName, aTel, aImage, aEmail, aLink, aPay, aAddr, aInfo, InterviewOX, ArgDate, aRegOX, aID, aPW, lSeq, ActSeq)
+    		values(seqAcademy.nextVal, #{aname}, #{atel}, 'default.jpg', #{aemail}, #{alink}, #{apay}, #{aaddr}, #{ainfo}, #{interviewOX}, default,'X', #{aid}, #{apw}, 1, #{actseq})
+	</insert>
+	
+	<insert id="sturegister" parameterType="adto">
+		insert into tblStudent(stuSeq, stuName, stuBirth, stuGender, stuId, stuPw, stuAddr, stuEmail, stuRegdate, stuTel, stuImage, stuActive)
+    		values(seqStudent.nextVal, #{stuname}, #{stubirth}, #{stugender}, #{stuid}, #{stupw}, #{stuaddr}, #{stuemail}, default, #{stutel}, 'default.jpg', 'O')
+	</insert>
+	
+</mapper>

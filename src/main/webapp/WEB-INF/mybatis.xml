@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<typeAliases>
+		<!-- 대현바티스 -->
+   		<typeAlias type="com.test.academy.dto.ProjectDTO" alias="pdto" />
+   		<typeAlias type="com.test.academy.dto.ProjectCommentDTO" alias="pcdto" />
+   		<typeAlias type="com.test.academy.dto.StudentDTO" alias="sdto"/>
+		<typeAlias type="com.test.academy.dto.AcademyDTO" alias="acdto"/>
+		<typeAlias type="com.test.academy.dto.AdminDTO" alias="addto"/>
+		<typeAlias type="com.test.academy.dto.CourseDTO" alias="cdto"/>
+   		<!-- 동환바티스 -->
+   		<typeAlias type="com.test.academy.dto.CommunityDTO" alias="cmdto"/>
+		<typeAlias type="com.test.academy.dto.CommunityCommentDTO" alias="ccdto"/>
+		<typeAlias type="com.test.academy.dto.QnaDTO" alias="qnadto"/>
+		<typeAlias type="com.test.academy.dto.ClassDTO" alias="cldto"/>
+		<!-- 동석바티스 -->
+		<typeAlias type="com.test.academy.dto.ClassDTO" alias="cldto"/>
+		<typeAlias type="com.test.academy.dto.JjimDTO" alias="jjdto"/>
+		<!-- 유진바티스 -->
+		<typeAlias type="com.test.academy.dto.CodingTestDTO" alias="codedto"/>
+		<!-- 하늘바티스 -->
+		<typeAlias type="com.test.academy.dto.ClassReviewDTO" alias="crdto" />
+		<typeAlias type="com.test.academy.dto.TeacherReviewDTO" alias="trdto" />
+		<typeAlias type="com.test.academy.dto.CompleteReviewDTO" alias="comdto" />
+		<typeAlias type="com.test.academy.dto.ResumeDTO" alias="rdto" />
+		<typeAlias type="com.test.academy.dto.AccountDTO" alias="adto"/>
+		<typeAlias type="com.test.academy.dto.LoginLogDTO" alias="ldto"/>
+		<typeAlias type="com.test.academy.dto.ProjectMemberDTO" alias="mdto"/>
+		<typeAlias type="com.test.academy.dto.ApplyProjectDTO" alias="apdto"/>
+		<typeAlias type="com.test.academy.dto.PostDTO" alias="podto"/>
+		<!-- 민수바티스 -->
+		<typeAlias type ="com.test.academy.dto.TeacherDTO" alias = "tdto"/>
+		<typeAlias type ="com.test.academy.dto.MapcsDTO" alias = "mcsdto"/>
+   	</typeAliases>
+	
+</configuration>

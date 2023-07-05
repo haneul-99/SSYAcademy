@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="student">
+	<select id="mypage" parameterType="String" resultType="sdto">
+		select * from tblStudent where stuseq = #{stuseq}
+	</select> 
+	
+	<select id="crboard" parameterType="String" resultType="crdto">
+		select * from tblClassReview cr inner join tblStudent s on s.stuseq = cr.stuseq where cr.stuseq = #{stuseq}
+	</select>
+	
+	<update id="edit" parameterType="sdto">
+		update tblStudent set stuname = #{stuname}, stutel = #{stutel}, stuaddr = #{stuaddr}, stuemail = #{stuemail}, stuimage = #{stuimage}  where stuseq = #{stuseq}
+	</update>
+	
+	<select id="trboard" parameterType="String" resultType="trdto">
+		select * from tblTeacherReview tr inner join tblStudent s on tr.stuseq = s.stuseq inner join tblTeacher t on t.tseq = tr.tseq where s.stuseq = #{stuseq}
+	</select>
+	
+	<select id="completeboard" parameterType="String" resultType="comdto">
+		select * from tblCompleteReview cr inner join tblStudent s on cr.stuseq = s.stuseq inner join tblAcademy a  on a.aseq = cr.aseq where cr.stuseq = #{stuseq}
+	</select>
+	
+	<select id="cmboard" parameterType="String" resultType="cmdto">
+		select * from tblCommunity cm inner join tblStudent s on cm.stuseq = s.stuseq where cm.stuseq = #{stuseq}
+	</select>
+	
+	<select id="sturesume" parameterType="String" resultType="rdto">
+		select * from tblResume where stuseq = #{stuseq}
+	</select>
+	
+	<insert id="addresume" parameterType="rdto">
+		insert into tblResume (rseq, edu, army, license, introduce, stuseq) values (seqResume.nextVal, #{edu}, #{army}, #{license}, #{introduce}, #{stuseq})
+	</insert> 
+
+	<update id="editresume"  parameterType="rdto">
+		update tblResume set edu = #{edu}, license = #{license}, army = #{army}, introduce = #{introduce} where stuseq = #{stuseq}
+	</update> 
+	
+	<update id="stueditresume" parameterType="String">
+		update tblStudent set stuimage = #{stuimage} where stuseq = #{stuseq}
+	</update>
+	
+	<select id="studentclass" parameterType="String" resultType="cldto">
+		select * from tblStudent s inner join tblMapCS mcs on s.stuseq = mcs.stuseq inner join tblClass c on mcs.cseq = c.cseq inner join tblTeacher t on c.tseq = t.tseq inner join tblAcademy a on t.aseq = a.aseq inner join tbllocation l on a.lseq = l.lseq where s.stuseq = #{stuseq}
+	</select>
+	
+	<delete id="classdelete" parameterType="String">
+		delete from tblMapCS where mcsseq = #{mcsseq}
+	</delete>
+	
+	<select id="studentproject" parameterType="String" resultType="pdto">
+		select * from tblProject where stuseq = #{stuseq}
+	</select>
+	
+	<delete id="projectMemberdel" parameterType="String">
+		delete from tblProjectMember where prseq = #{prseq}
+	</delete>
+	
+	<delete id="applyProject" parameterType="String">
+		delete from tblApplyProject where prseq = #{prseq}
+	</delete>
+	
+	<delete id="projectcomment" parameterType="String">
+		delete from tblProjectComment where prseq = #{prseq}
+	</delete>
+	
+	<delete id="projectdelete" parameterType="String">
+		delete from tblProject where prseq = #{prseq}
+	</delete>
+	
+	<select id="projectmember" parameterType="String" resultType="mdto">
+		select * from tblProjectMember m inner join tblProject p on m.prseq = p.prseq inner join tblStudent s on m.stuseq = s.stuseq where m.stuseq = #{stuseq}
+	</select>
+	
+	<select id="projectapply" parameterType="String" resultType="apdto">
+		select * from tblApplyProject ap inner join tblProject p on ap.prseq = p.prseq inner join tblStudent s on ap.stuseq = s.stuseq where ap.stuseq = #{stuseq}
+	</select>
+	
+	<delete id="projapplydel" parameterType="String">
+		delete from tblApplyProject where apseq = #{apseq}
+	</delete>
+	
+	<delete id="delresumeok" parameterType="String">
+		delete from tblResume where stuseq = #{stuseq}
+	</delete>
+	
+	<select id="stumanage" parameterType="String" resultType="podto">
+	select * from tblPost po inner join tblSender se on po.seseq = se.seseq inner join tblReceiver re on po.reseq = re.reseq inner join tblStudent s on s.stuseq = se.stuseq where re.stuseq = #{stuseq}
+	</select>
+	
+	<select id="membermanage" parameterType="String" resultType="mdto">
+	select * from tblProjectMember pm
+    inner join tblStudent s
+        on pm.stuseq = s.stuseq
+            where pm.prseq = #{prseq}
+	</select>
+	
+	<select id="applymanage" parameterType="String" resultType="apdto">
+            
+            select * 
+    from tblapplyproject ap
+    inner join tblstudent s
+    on ap.stuseq = s.stuseq
+    where ap.prseq = #{prseq}
+            
+	</select>
+	
+	
+	<delete id="rejectdelok" parameterType="String">
+		delete from tblApplyProject where prseq = #{prseq}
+	</delete>
+	
+	<insert id="approvaladdok" parameterType="mdto">
+		insert into tblProjectMember (pmseq, prseq, stuseq)values (seqProjectMember.nextVal, #{prseq}, #{stuseq})
+	</insert>
+	
+	<delete id="participatedelok" parameterType="String">
+		delete from tblProjectMember where pmseq = #{pmseq}
+	</delete>
+	
+	<!-- <select id="log" parameterType="rdto">
+		select * from tblLoginLog order by desc
+	</select> -->
+</mapper>

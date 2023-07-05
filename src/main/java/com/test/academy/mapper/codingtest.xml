@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="codingtest">
+	<select id="codingtestlist" resultType="codedto">
+		select * from tblCodeTest ct inner join tblSkils s on ct.skseq = s.skseq
+	</select>
+	
+	<select id="codingtestview" resultType="codedto" parameterType="String">
+		select * from tblCodeTest where ctseq = #{ctseq}
+	</select>
+</mapper>

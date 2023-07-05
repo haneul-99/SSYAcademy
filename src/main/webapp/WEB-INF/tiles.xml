@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
+
+<tiles-definitions>
+   
+  
+   
+   <!-- 템플릿 css 있는 페이지 -->
+    <definition name="a.*.*" template="/WEB-INF/views/layout/homelayout.jsp"> <!-- 매개변수로 바꿀수 있음  -->
+   		<put-attribute name="header" 
+   				value="/WEB-INF/views/inc/header.jsp"></put-attribute>
+   		<put-attribute name="content" 
+   				value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
+   		<put-attribute name="footer" 
+   				value="/WEB-INF/views/inc/footer.jsp"></put-attribute>
+   		<put-attribute name="css" 	
+   				value="/WEB-INF/views/inc/css/{2}_css.jsp"></put-attribute>
+   </definition>
+   
+  
+    <definition name="b.*.*" template="/WEB-INF/views/layout/homelayout2.jsp"> <!-- 매개변수로 바꿀수 있음  -->
+   		<put-attribute name="header" 
+   				value="/WEB-INF/views/inc/header.jsp"></put-attribute>
+   		<put-attribute name="content" 
+   				value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
+   		<put-attribute name="footer" 
+   				value="/WEB-INF/views/inc/footer.jsp"></put-attribute>
+   		<put-attribute name="css" 	
+   				value="/WEB-INF/views/inc/css/{2}_css.jsp"></put-attribute>
+   </definition>
+   
+   
+   <definition name="c.*.*" template="/WEB-INF/views/layout/homelayout3.jsp"> <!-- 매개변수로 바꿀수 있음  -->
+   		<put-attribute name="header_academy" 
+   				value="/WEB-INF/views/inc/header_academy.jsp"></put-attribute>
+   		<put-attribute name="aside" 
+   				value="/WEB-INF/views/inc/aside_admin.jsp"></put-attribute>
+   		<put-attribute name="content" 
+   				value="/WEB-INF/views/{1}/{2}.jsp"></put-attribute>
+   		<put-attribute name="css" 	
+   				value="/WEB-INF/views/inc/css/{2}_css.jsp"></put-attribute>
+   		
+   </definition>
+   
+    <definition name="*" template="/WEB-INF/views/layout/homelayout.jsp"> <!-- 매개변수로 바꿀수 있음  -->
+   		<put-attribute name="header" 
+   				value="/WEB-INF/views/inc/header.jsp"></put-attribute>
+   		<put-attribute name="content" 
+   				value="/WEB-INF/views/{1}.jsp"></put-attribute>
+   		<put-attribute name="css" 
+   				value="/WEB-INF/views/inc/css/{1}_css.jsp"></put-attribute>
+   		<put-attribute name="footer" 
+   				value="/WEB-INF/views/inc/footer.jsp"></put-attribute>
+   		<put-attribute name="maincss" 
+   				value="/WEB-INF/views/inc/css/main_css.jsp"></put-attribute>
+   </definition>
+   
+   
+   
+</tiles-definitions>
+
+
+
+
+
+
+
+
+
+
