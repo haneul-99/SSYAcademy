@@ -3,8 +3,7 @@
 	- 6개설치
 	- mybatis
 	- web.xml > 필터 설치
-	- root-context 
-test 입둥
+	- root-context
 
 해야될거	
 log4j
