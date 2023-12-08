@@ -4,7 +4,7 @@
 	- mybatis
 	- web.xml > 필터 설치
 	- root-context 
-
+test 입둥
 
 해야될거	
 log4j
